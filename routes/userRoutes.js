@@ -8,7 +8,7 @@ router.post('/newAdmin', (req, res) => {
   const { username, AdminEmail, password } = req.body;
 
   console.log(req.body);
-  const role = "Admin"
+  const role = "Admin"   
 
   controller.createItem(username, AdminEmail, password, role, (err, result) => {
     if (err) {

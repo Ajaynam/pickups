@@ -131,9 +131,9 @@ router.delete("/delete_QuickOrder/:id", async (req, res) => {
 router.get("/getTotalQuickOrder", async (req, res) => {
     try {
         const qTotalOrders = "SELECT COUNT(*) as totalOrders FROM quickorders";
-        const totalOrders = await db.queryAsync(qTotalOrders);
+        const totalQuickOrders = await db.queryAsync(qTotalOrders);
 
-        return res.json({ message: 'Total quickorders retrieved successfully', totalOrders: totalOrders[0].totalOrders });
+        return res.json({ message: 'Total quickorders retrieved successfully', totalOrders: totalQuickOrders[0].totalOrders });
     } catch (error) {
         return res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }

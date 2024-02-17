@@ -15,7 +15,6 @@ const generateRandomOrderId = () => {
 router.post("/postBooking", async (req, res) => {
   try {
     const {
-
       pname,
       pnumber,
       pemail,
@@ -37,6 +36,12 @@ router.post("/postBooking", async (req, res) => {
       price,
       orderDate,
       trackingNo,
+      length,
+      width,
+      height,
+      parcel_value,
+      description,
+      NoOfPackage,
     } = req.body;
 
     let status = "pending";
@@ -46,9 +51,9 @@ router.post("/postBooking", async (req, res) => {
       status = "picked-up";
     }
 
-    const q = "INSERT INTO orders (orderId ,pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+    const q = `INSERT INTO orders (orderId ,pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     const values = [
-      orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo
+      orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage
     ];
 
     const data = await db.queryAsync(q, values);
@@ -59,7 +64,6 @@ router.post("/postBooking", async (req, res) => {
   }
 });
 
-// getOrders route
 router.get("/getOrders", async (req, res) => {
   try {
     const q = "SELECT * FROM orders";
@@ -71,7 +75,6 @@ router.get("/getOrders", async (req, res) => {
   }
 });
 
-// getOrderById route
 router.get("/getOrderById/:id", async (req, res) => {
   try {
     const orderId = req.params.id;
@@ -88,7 +91,6 @@ router.get("/getOrderById/:id", async (req, res) => {
   }
 });
 
-// updateTrackingNo route
 router.post("/updateTrackingNo/:id", async (req, res) => {
   try {
     const orderId = req.params.id;
@@ -112,7 +114,6 @@ router.post("/updateTrackingNo/:id", async (req, res) => {
     return res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 });
-
 
 
 router.put("/updateOrder/:id", async (req, res) => {
@@ -142,12 +143,20 @@ router.put("/updateOrder/:id", async (req, res) => {
       orderDate,
       status,
       trackingNo,
+      length,
+      width,
+      height,
+      parcel_value,
+      description,
+      NoOfPackage,
     } = req.body;
 
     const qUpdate =
-      "UPDATE orders SET pname = ?, pnumber = ?, pemail = ?, paddress = ?, ppin = ?, pcity = ?, pstate = ?, dname = ?, dnumber = ?, demail = ?, daddress = ?, dpin = ?, dcity = ?, dstate = ?, packageType = ?, weight = ?, ChargableWeight = ?, shiptype = ?, price = ?, orderDate = ?, status = ?, trackingNo = ?  WHERE id = ?";
+      "UPDATE orders SET pname = ?, pnumber = ?, pemail = ?, paddress = ?, ppin = ?, pcity = ?, pstate = ?, dname = ?, dnumber = ?, demail = ?, daddress = ?, dpin = ?, dcity = ?, dstate = ?, packageType = ?, weight = ?, ChargableWeight = ?, shiptype = ?, price = ?, orderDate = ?, status = ?, trackingNo = ?, length = ?, width = ?, height = ?, parcel_value = ?, description = ?, NoOfPackage = ? WHERE id = ?";
 
-    const valuesUpdate = [pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate,  status, trackingNo, id];
+    const valuesUpdate = [
+      pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage, id
+    ];
 
     const data = await db.queryAsync(qUpdate, valuesUpdate);
 
@@ -162,10 +171,6 @@ router.put("/updateOrder/:id", async (req, res) => {
 });
 
 
-
-
-
-// deleteOrder route
 router.delete("/deleteOrder/:id", async (req, res) => {
   try {
     const orderId = req.params.id;
@@ -184,9 +189,6 @@ router.delete("/deleteOrder/:id", async (req, res) => {
 });
 
 
-// ...
-
-// getTotalOrders route
 router.get("/getTotalOrders", async (req, res) => {
   try {
     const qTotalOrders = "SELECT COUNT(*) as totalOrders FROM orders";
@@ -198,7 +200,6 @@ router.get("/getTotalOrders", async (req, res) => {
   }
 });
 
-// getTotalPendingOrders route
 router.get("/getTotalPendingOrders", async (req, res) => {
   try {
     const qTotalPendingOrders = "SELECT COUNT(*) as totalPendingOrders FROM orders WHERE status = 'pending'";

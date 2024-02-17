@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/userController');
-// const middle = require("../middleware/che_sanchMiddleware")
 
 
 router.post('/newAdmin', (req, res) => {

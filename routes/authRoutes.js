@@ -1,15 +1,10 @@
 
-
-
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/authController');
 
-
 router.post('/login', (req, res) => {
   const { username, password ,role} = req.body;
-
-
   console.log(`Role: ${role}`);
   controller.authenticateUser(role, username, password, (err, data) => {
     if (err) {

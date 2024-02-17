@@ -16,7 +16,7 @@ const authenticateUser = async (role, username, password, callback) => {
 
     if (results.length === 1) {
       const data = results[0];
-      const token = jwt.sign({ role, username }, secretKey, { expiresIn: '20h' });
+      const token = jwt.sign({ role, username }, secretKey, { expiresIn: '30d' });
       callback(null, { token, data ,role });
     } else {
       callback(null, null);

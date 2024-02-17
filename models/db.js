@@ -8,6 +8,10 @@ const db = {
   user: 'ubzrnkmd_user_pickupkart',
   password: 'Win@1753012',
   database: 'ubzrnkmd_pickupkart',
+  // host: 'localhost',
+  // user: 'root',
+  // password: '',
+  // database: 'pickupskartsdb',
 };
 
 const pool = mysql.createPool(db);

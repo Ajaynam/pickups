@@ -51,10 +51,17 @@ router.post("/postBooking", async (req, res) => {
       status = "picked-up";
     }
 
-    const q = `INSERT INTO orders (orderId ,pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    // const q = "INSERT INTO orders (orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo ,length, width, height, parcel_value, description, NoOfPackage) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    const q = "INSERT INTO orders (orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo ,length, width, height, parcel_value, description, NoOfPackage) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+    // const values = [
+    //   orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage
+    // ];
+
     const values = [
-      orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage
-    ];
+  orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage
+];
+
 
     const data = await db.queryAsync(q, values);
 

@@ -42,6 +42,7 @@ router.post("/postBooking", async (req, res) => {
       parcel_value,
       description,
       NoOfPackage,
+      gst
     } = req.body;
 
     let status = "pending";
@@ -52,14 +53,14 @@ router.post("/postBooking", async (req, res) => {
     }
 
     // const q = "INSERT INTO orders (orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo ,length, width, height, parcel_value, description, NoOfPackage) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    const q = "INSERT INTO orders (orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo ,length, width, height, parcel_value, description, NoOfPackage) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    const q = "INSERT INTO orders (orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo ,length, width, height, parcel_value, description, NoOfPackage ,gst) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     // const values = [
     //   orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage
     // ];
 
     const values = [
-  orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage
+  orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage ,gst
 ];
 
 
@@ -156,13 +157,14 @@ router.put("/updateOrder/:id", async (req, res) => {
       parcel_value,
       description,
       NoOfPackage,
+      gst,
     } = req.body;
 
     const qUpdate =
-      "UPDATE orders SET pname = ?, pnumber = ?, pemail = ?, paddress = ?, ppin = ?, pcity = ?, pstate = ?, dname = ?, dnumber = ?, demail = ?, daddress = ?, dpin = ?, dcity = ?, dstate = ?, packageType = ?, weight = ?, ChargableWeight = ?, shiptype = ?, price = ?, orderDate = ?, status = ?, trackingNo = ?, length = ?, width = ?, height = ?, parcel_value = ?, description = ?, NoOfPackage = ? WHERE id = ?";
+      "UPDATE orders SET pname = ?, pnumber = ?, pemail = ?, paddress = ?, ppin = ?, pcity = ?, pstate = ?, dname = ?, dnumber = ?, demail = ?, daddress = ?, dpin = ?, dcity = ?, dstate = ?, packageType = ?, weight = ?, ChargableWeight = ?, shiptype = ?, price = ?, orderDate = ?, status = ?, trackingNo = ?, length = ?, width = ?, height = ?, parcel_value = ?, description = ?, NoOfPackage = ? , gst = ? WHERE id = ?";
 
     const valuesUpdate = [
-      pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage, id
+      pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage, gst, id
     ];
 
     const data = await db.queryAsync(qUpdate, valuesUpdate);

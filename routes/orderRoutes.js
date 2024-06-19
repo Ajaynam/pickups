@@ -3,13 +3,15 @@ const router = express.Router();
 
 const db = require('../models/db')
 
+
+
+
+// let lastOrderId = 100; 
+let lastOrderId = 110000; 
+
 const generateRandomOrderId = () => {
-  const randomChars = String.fromCharCode(65 + Math.floor(Math.random() * 26)) +
-    String.fromCharCode(65 + Math.floor(Math.random() * 26));
-
-  const randomNumber = Math.floor(1000 + Math.random() * 9000);
-
-  return `${randomChars}${randomNumber}`;
+  lastOrderId++;
+  return lastOrderId.toString();
 };
 
 router.post("/postBooking", async (req, res) => {

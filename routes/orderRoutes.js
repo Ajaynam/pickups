@@ -4,15 +4,43 @@ const router = express.Router();
 const db = require('../models/db')
 
 
+// let lastOrderId = 110000;
+
+// const generateRandomOrderId = () => {
+//   lastOrderId++;
+//   return lastOrderId.toString();
+// };
+
+// const isOrderIdUnique = async (orderId) => {
+//   const q = "SELECT COUNT(*) as count FROM orders WHERE orderId = ?";
+//   const result = await db.queryAsync(q, [orderId]);
+//   return result[0].count === 0;
+// };
 
 
-// let lastOrderId = 100; 
-let lastOrderId = 110000; 
+let lastOrderId = 110000;
 
-const generateRandomOrderId = () => {
-  lastOrderId++;
-  return lastOrderId.toString();
+// Function to check if the orderId is unique
+const isOrderIdUnique = async (orderId) => {
+  const q = "SELECT COUNT(*) as count FROM orders WHERE orderId = ?";
+  const result = await db.queryAsync(q, [orderId]);
+  return result[0].count === 0;
 };
+
+// Function to generate a unique incremented orderId
+const generateUniqueOrderId = async () => {
+  let orderId;
+  let isUnique = false;
+
+  while (!isUnique) {
+    lastOrderId++;
+    orderId = lastOrderId.toString();
+    isUnique = await isOrderIdUnique(orderId);
+  }
+
+  return orderId;
+};
+
 
 router.post("/postBooking", async (req, res) => {
   try {
@@ -47,9 +75,19 @@ router.post("/postBooking", async (req, res) => {
       gst
     } = req.body;
 
+    // let status = "pending";
+
+    // const orderId = generateRandomOrderId();
+    // if (trackingNo) {
+    //   status = "picked-up";
+    // }
+
+
     let status = "pending";
 
-    const orderId = generateRandomOrderId();
+    // Generate a unique orderId
+    const orderId = await generateUniqueOrderId();
+
     if (trackingNo) {
       status = "picked-up";
     }
@@ -62,8 +100,8 @@ router.post("/postBooking", async (req, res) => {
     // ];
 
     const values = [
-  orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage ,gst
-];
+      orderId, pname, pnumber, pemail, paddress, ppin, pcity, pstate, dname, dnumber, demail, daddress, dpin, dcity, dstate, packageType, weight, ChargableWeight, shiptype, price, orderDate, status, trackingNo, length, width, height, parcel_value, description, NoOfPackage, gst
+    ];
 
 
     const data = await db.queryAsync(q, values);
